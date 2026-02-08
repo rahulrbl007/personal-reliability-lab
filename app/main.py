@@ -1,6 +1,7 @@
 
 
 from fastapi import FastAPI
+from fastapi import HTTPException
 from prometheus_client import Counter, Histogram , generate_latest
 from prometheus_client import CONTENT_TYPE_LATEST
 from starlette.responses import Response
@@ -30,7 +31,7 @@ async def metrics_middleware(request, call_next):
     REQUEST_COUNT.labels(
         endpoint=request.url.path,
         method=request.method,
-        status=Response.status_code
+        status=str(Response.status_code)
     ).inc()
 
     REQUEST_LATENCY.labels(endpoint=request.url.path).observe(latency)
