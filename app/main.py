@@ -41,6 +41,11 @@ async def metrics_middleware(request, call_next):
 def health():
     return {"status": "ok"}
 
+@app.get("/error")
+def error():
+    raise HTTPException(status_code=500, detail="forced error for testing")
+
+
 @app.get("/work")
 def work():
     sleep_time = random.uniform(0.1, 1.5)
